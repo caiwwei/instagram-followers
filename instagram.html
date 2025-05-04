@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Follow Check</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    input[type="file"] {
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    ul {
+      margin-top: 20px;
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Instagram Follow Check</h1>
+
+  <label for="followers">Upload Followers HTML</label>
+  <input type="file" id="followers" accept=".html">
+
+  <label for="following">Upload Following HTML</label>
+  <input type="file" id="following" accept=".html">
+
+  <button onclick="compare()">Compare</button>
+
+  <h2>Not Following You Back</h2>
+  <ul id="results"></ul>
+
+  <script>
+    let followersSet = new Set();
+    let followingSet = new Set();
+
+    function extractUsernames(file, callback) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(event.target.result, 'text/html');
+        const links = doc.querySelectorAll('a');
+        const usernames = new Set();
+        links.forEach(link => {
+          if (link.textContent.trim()) {
+            usernames.add(link.textContent.trim());
+          }
+        });
+        callback(usernames);
+      };
+      reader.readAsText(file);
+    }
+
+    document.getElementById('followers').addEventListener('change', function(e) {
+      extractUsernames(e.target.files[0], (usernames) => followersSet = usernames);
+    });
+
+    document.getElementById('following').addEventListener('change', function(e) {
+      extractUsernames(e.target.files[0], (usernames) => followingSet = usernames);
+    });
+
+    function compare() {
+      const notFollowingBack = Array.from(followingSet).filter(user => !followersSet.has(user));
+      const resultsList = document.getElementById('results');
+      resultsList.innerHTML = '';
+      notFollowingBack.forEach(user => {
+        const li = document.createElement('li');
+        li.textContent = user;
+        resultsList.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
