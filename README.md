@@ -1,5 +1,5 @@
 # instagram-followers
-A simple HTML/JavaScript tool to find out who you follow on Instagram that isn't following you back.
+A simple tool to find out who you follow on Instagram that isn't following you back.
 
 **How to Download Files:**
 
