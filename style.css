@@ -4,17 +4,15 @@ body {
     max-width: 600px;
     margin: auto;
     padding: 20px;
-    background-color: #ffdbec;
+    background-color: #ffe8ed;
 }
 h1 {
     font-size: 28px;
     margin-bottom: 20px;
     text-align: center;
     color: #333;
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-style: italic;
-    font-size: 50px
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 43.5px
 }
 label {
     display: block;
